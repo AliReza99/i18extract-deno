@@ -22,7 +22,7 @@ async function main() {
   program
     .requiredOption(
       '-l, --locales <input>',
-      "locales seperated by comma (first one will be default and won't be translated) like: en,es,fr",
+      "locales separated by comma (first one will be default and won't be translated) like: en,es,fr",
     )
     .option('--lint', 'Run the linter')
     .requiredOption('-i, --input <input>', 'input glob like: src/**/*.{js,jsx,ts,tsx}')
@@ -61,40 +61,49 @@ async function main() {
 
   const localesToTranslate = locales.filter(localeName => localeName !== defaultLocale);
 
-  if (options.lint) {
-    const lintOutputDir = outputDir;
-    if (!fse.existsSync(lintOutputDir)) {
-      fse.mkdirSync(lintOutputDir, { recursive: true });
-    }
+  try {
+    if (options.lint) {
+      const lintOutputDir = outputDir;
+      if (!fse.existsSync(lintOutputDir)) {
+        fse.mkdirSync(lintOutputDir, { recursive: true });
+      }
 
-    for (const localeName of localesToTranslate) {
-      fse.copyFileSync(
-        path.join(options.output, `/${localeName}.json`),
-        path.join(lintOutputDir, `/${localeName}.json`),
-      );
-    }
+      for (const localeName of localesToTranslate) {
+        const [err] = await to(
+          fse.copyFile(
+            path.join(options.output, `/${localeName}.json`),
+            path.join(lintOutputDir, `/${localeName}.json`),
+          ),
+        );
+        if (err) {
+          console.log(`[error] no translations found for ${localeName}`);
+          console.log('[info] run the command without "--lint" to add missing translations');
+          throw err;
+        }
+      }
 
-    await execute(`npx i18next-parser -s`);
-    fse.removeSync(`${currentDir}/i18next-parser.config.js`);
+      await execute(`npx i18next-parser -s`);
 
-    const [err] = await to(
-      checkMissingTranslations({
+      await checkMissingTranslations({
         localesToTranslate: localesToTranslate,
         lintOutputDir: lintOutputDir,
-      }),
-    );
-    if (!err) return;
-    console.error(err.message);
+      });
+    } else {
+      await execute(`npx i18next-parser`);
+      await translateLocalesFiles({
+        outputDir: localesOutputDir,
+        defaultLocale: defaultLocale,
+        localesToTranslate: localesToTranslate,
+      });
+    }
+  } catch (err) {
+    if (err instanceof Error) {
+      console.error(err.message);
+    }
     console.log('[info] run the command without "--lint" to add missing translations');
-    process.exit(1);
-  } else {
-    await execute(`npx i18next-parser`);
+  } finally {
+    // Ensure the config file is deleted, even if an error occurs
     fse.removeSync(`${currentDir}/i18next-parser.config.js`);
-    await translateLocalesFiles({
-      outputDir: localesOutputDir,
-      defaultLocale: defaultLocale,
-      localesToTranslate: localesToTranslate,
-    });
   }
 }
 
