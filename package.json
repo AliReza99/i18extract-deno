@@ -1,0 +1,47 @@
+{
+  "name": "i18extract",
+  "private": false,
+  "version": "1.0.0",
+  "description": "",
+  "author": "Alireza Bahrani",
+  "license": "MIT",
+  "type": "module",
+  "types": "dist/cli.d.ts",
+  "files": [
+    "dist"
+  ],
+  "bin": "dist/cli.js",
+  "scripts": {
+    "lint:prettier": "prettier --check --cache ./src/**/*.{js,jsx,ts,tsx}",
+    "prettify": "prettier --write --cache ./src/**/*.{js,jsx,ts,tsx}",
+    "lint": "tsc --noEmit && eslint --cache --cache-location ./node_modules/.cache/eslint/ --quiet --ext .js,.jsx,.ts,.tsx,.mjs src",
+    "prebuild": "rimraf dist",
+    "build": "tsup src/cli.ts src/i18next-parser.config.ts --format esm --dts",
+    "do-link": "npm link",
+    "release:patch": "npm version patch",
+    "release:major": "npm version major",
+    "release:private": "npm publish --access=restricted",
+    "release:public": "npm publish --access=public"
+  },
+  "dependencies": {
+    "@arbz/execute": "^1.0.3",
+    "@vitalets/google-translate-api": "^9.2.0",
+    "await-to-js": "^3.0.0",
+    "commander": "^12.1.0",
+    "fs-extra": "^11.2.0",
+    "i18next-parser": "^8.8.0",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/lodash": "^4.17.10",
+    "@types/node": "^22.7.0",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "eslint": "^8.48.0",
+    "tsup": "^8.3.0",
+    "prettier": "^3.0.3",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.6.2"
+  }
+}
