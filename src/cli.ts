@@ -60,9 +60,12 @@ async function main() {
 
   const i18parserOutput = `${outputDir}/$LOCALE.json`;
 
-  let configFileContent = fse.readFileSync(fallbackConfigFilePath, 'utf-8');
-  configFileContent = configFileContent.replace('___OUTPUT___', i18parserOutput);
-  configFileContent = configFileContent.replace('___INPUT___', options.input);
+  let configFileContent = fse
+    .readFileSync(fallbackConfigFilePath, 'utf-8')
+    .replace('___OUTPUT___', i18parserOutput)
+    .replace('___INPUT___', options.input)
+    .replace('___DEFAULT_LOCALE___', defaultLocale)
+    .replace('___LOCALES___', JSON.stringify(locales));
 
   fse.outputFileSync(`${currentDir}/i18next-parser.config.js`, configFileContent);
   configFileCreated = true;

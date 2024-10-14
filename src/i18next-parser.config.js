@@ -1,6 +1,4 @@
-import type { UserConfig } from 'i18next-parser';
-
-const config: UserConfig = {
+const config = {
   contextSeparator: '_',
   // Key separator used in your translation keys
 
@@ -10,9 +8,8 @@ const config: UserConfig = {
   defaultNamespace: 'translation',
   // Default namespace used in your i18next config
 
-  defaultValue: (locale: string | undefined, namespace: string | undefined, key: string | undefined) => {
-    //TODO: // if (locale === defaultLocale.name) {
-    if (locale === 'en') {
+  defaultValue: (locale, namespace, key) => {
+    if (locale === '___DEFAULT_LOCALE___') {
       return key || '';
     }
 
@@ -54,8 +51,8 @@ const config: UserConfig = {
   lineEnding: 'auto',
   // Control the line ending. See options at https://github.com/ryanve/eol
 
-  //TODO: // locales: Object.keys(locales),
-  locales: ['en', 'es', 'ca'],
+  // eslint-disable-next-line no-undef
+  locales: ___LOCALES___,
   // An array of the locales in your applications
 
   namespaceSeparator: ':',
