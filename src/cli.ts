@@ -18,6 +18,13 @@ const fallbackConfigFilePath = path.resolve(__dirname, 'i18next-parser.config.js
 
 const currentDir = process.cwd();
 
+let configFileCreated = false;
+
+function cleanup() {
+  if (!configFileCreated) return;
+  fse.removeSync(`${currentDir}/i18next-parser.config.js`);
+}
+
 async function main() {
   program
     .requiredOption(
@@ -58,7 +65,7 @@ async function main() {
   configFileContent = configFileContent.replace('___INPUT___', options.input);
 
   fse.outputFileSync(`${currentDir}/i18next-parser.config.js`, configFileContent);
-
+  configFileCreated = true;
   const localesToTranslate = locales.filter(localeName => localeName !== defaultLocale);
 
   try {
@@ -102,9 +109,19 @@ async function main() {
     }
     console.log('[info] run the command without "--lint" to add missing translations');
   } finally {
-    // Ensure the config file is deleted, even if an error occurs
-    fse.removeSync(`${currentDir}/i18next-parser.config.js`);
+    cleanup();
   }
 }
+
+function onExit() {
+  cleanup();
+  process.exit(0);
+}
+
+process.on('SIGINT', onExit);
+process.on('SIGTERM', onExit);
+process.on('exit', () => {
+  cleanup();
+});
 
 main();
