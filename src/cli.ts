@@ -139,6 +139,7 @@ async function main() {
       console.error(err.message);
     }
     console.log('[info] run the command without "--lint" to add missing translations');
+    throw err;
   } finally {
     cleanup();
   }
