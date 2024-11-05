@@ -74,6 +74,5 @@ npx i18extract -l en,es,fr -i src/**/*.{js,jsx,ts,tsx} -o locales
 [MIT License](LICENSE)
 
 ```
-
 Feel free to let me know if you want to add or modify any sections!
 ```
