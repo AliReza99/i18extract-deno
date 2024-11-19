@@ -120,14 +120,14 @@ async function main() {
         }
       }
 
-      await execute(`npx i18next-parser -s`);
+      await execute(`deno run -A npm:i18next-parser -s`);
 
       await checkMissingTranslations({
         localesToTranslate: localesToTranslate,
         lintOutputDir: lintOutputDir,
       });
     } else {
-      await execute(`npx i18next-parser`);
+      await execute(`deno run -A npm:i18next-parser`);
       await translateLocalesFiles({
         outputDir: localesOutputDir,
         defaultLocale: defaultLocale,
