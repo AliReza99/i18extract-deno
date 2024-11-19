@@ -1,4 +1,4 @@
-# i18extract
+# fork of [i18extract](https://github.com/AliReza99/i18extract) to be compatible with deno
 
 A command-line tool for extracting i18next translation keys from your source code and generating translation JSON files using Google Translate APIs.
 
