@@ -11,6 +11,7 @@
     "dist"
   ],
   "bin": "dist/cli.js",
+  "repository": "https://github.com/AliReza99/i18extract-deno.git",
   "scripts": {
     "lint:prettier": "prettier --check --cache ./src/**/*.{js,jsx,ts,tsx}",
     "prettify": "prettier --write --cache ./src/**/*.{js,jsx,ts,tsx}",
