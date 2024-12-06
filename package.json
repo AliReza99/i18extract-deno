@@ -1,7 +1,7 @@
 {
   "name": "i18extract-deno",
   "private": false,
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "extract i18next translation keys from your source code and translate using Google Translate APIs.",
   "author": "Alireza Bahrani",
   "license": "MIT",
