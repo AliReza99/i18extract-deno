@@ -2,7 +2,7 @@
   "name": "i18extract-deno",
   "private": false,
   "version": "2.0.4",
-  "description": "",
+  "description": "extract i18next translation keys from your source code and translate using Google Translate APIs.",
   "author": "Alireza Bahrani",
   "license": "MIT",
   "type": "module",
@@ -10,8 +10,20 @@
   "files": [
     "dist"
   ],
-  "bin": "dist/cli.js",
-  "repository": "https://github.com/AliReza99/i18extract-deno.git",
+  "bin": {
+    "i18extract-deno": "dist/cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AliReza99/i18extract-deno.git"
+  },
+  "keywords": [
+    "i18n",
+    "translation",
+    "i18next-parser",
+    "google-translate",
+    "translate"
+  ],
   "scripts": {
     "lint:prettier": "prettier --check --cache ./src/**/*.{js,jsx,ts,tsx}",
     "prettify": "prettier --write --cache ./src/**/*.{js,jsx,ts,tsx}",
@@ -19,10 +31,7 @@
     "prebuild": "rimraf dist",
     "build": "tsup src/cli.ts src/i18next-parser.config.js --format esm --dts",
     "do-link": "npm link",
-    "release:patch": "npm version patch",
-    "release:major": "npm version major",
-    "release:private": "npm publish --access=restricted",
-    "release:public": "npm publish --access=public"
+    "release": "npx release patch"
   },
   "dependencies": {
     "@arbz/execute": "^1.0.3",
